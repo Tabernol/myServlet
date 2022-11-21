@@ -1,6 +1,8 @@
 package servlet;
 
 import model.Student;
+import repo.DataSource;
+import service.StudentService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MyServlet extends HttpServlet {
+    StudentService studentService;
 
     private static String index = "/WEB-INF/view/index.jsp";
 
@@ -24,11 +27,9 @@ public class MyServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-       students = new CopyOnWriteArrayList<>();
-      Student student = new Student();
-      student.setIdStudent(13);
-      student.setNameStudent("Bob");
-      students.add(student);
+        DataSource.init();
+        studentService = new StudentService();
+        students = studentService.getStudents();
     }
 
     @Override
